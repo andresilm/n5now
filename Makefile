@@ -9,7 +9,9 @@ install:
 		$(VENV_DIR)/bin/pip install -r $(REQUIREMENTS_FILE); \
 	fi
 
-
+.PHONY: run
+run:
+	python3 -m uvicorn main:app --reload
 
 .PHONY: clean
 clean:
@@ -31,7 +33,7 @@ tag-latest: build
 	docker tag $(IMAGE_NAME):$(IMAGE_VERSION) $(IMAGE_NAME):latest
 
 .PHONY: docker-run
-run:
+docker-run:
 	docker run --rm -it $(IMAGE_NAME):$(IMAGE_VERSION)
 
 
