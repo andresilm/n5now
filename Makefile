@@ -13,7 +13,7 @@ install:
 run:
 	( \
        source $(VENV_DIR)/bin/activate; \
-       python -m app.main; \
+       $(VENV_DIR)/bin/python -m app.main; \
     )
 
 

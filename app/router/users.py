@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Annotated
 from jose import jwt, JWTError
 from fastapi import Depends, APIRouter, HTTPException
@@ -14,8 +15,15 @@ router = APIRouter(prefix='/users', tags=['Users'])
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
+class UsersRoles(Enum):
+    ADMIN = 'admin'
+    REGULAR_CITIZEN = 'citizen'
+    POLICE_OFFICER = 'police_officer'
+
+
 class CreateUserRequest(BaseModel):
     username: str
+    email: str
     first_name: str
     last_name: str
     password: str
@@ -35,9 +43,10 @@ async def get_current_user(token):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get('sub')
         user_id: int = payload.get('id')
+        role: str = payload.get('role')
         if not username or not user_id:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Could not authenticate user')
-        return {'username': username, 'id': user_id}
+        return {'username': username, 'id': user_id, 'role': role}
     except JWTError:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Could not authenticate user')
 
@@ -50,6 +59,7 @@ user_dep = Annotated[dict, Depends(get_current_user)]
 async def create_user(db: db_dep, create_user_request: CreateUserRequest):
     create_user_model = Users(
         username=create_user_request.username,
+        email=create_user_request.email,
         first_name=create_user_request.first_name,
         last_name=create_user_request.last_name,
         hashed_password=bcrypt_context.hash(create_user_request.password),
