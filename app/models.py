@@ -16,17 +16,17 @@ class Users(Base):
 
 class Vehicles(Base):
     __tablename__ = 'vehicles'
-
     plate = Column(String, primary_key=True)
-    owner_id = Column(Integer)
     color = Column(String)
     brand = Column(String)
+    owner_id = Column(Integer)
 
 
 class Infractions(Base):
     __tablename__ = 'infractions'
 
-    infractor_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
+    infractor_id = Column(Integer)
     vehicle_plate = Column(String)
     timestamp = Column(DateTime(timezone=True))
     comments = Column(String)

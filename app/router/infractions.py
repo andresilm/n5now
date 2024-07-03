@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from requests import Session
 from passlib.context import CryptContext
 from app.database import SessionLocal
-from app.models import Infractions, Users
+from app.models import Infractions, Users, Vehicles
 from app.router.users import get_current_user, UsersRoles
 
 router = APIRouter(prefix='/infractions', tags=['Infractions'])
@@ -36,20 +36,35 @@ class CreateInfractionRequest(BaseModel):
 async def register_new_infraction(db: db_dep, user: user_dep, request: CreateInfractionRequest):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Authentication failed')
-    elif user.get('role') != UsersRoles.POLICE_OFFICER:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Unauthorized')
 
-    create_infraction = Infractions(infractor_id=user.get('id'), **request.model_dump())
+    role = db.query(Users).filter(Users.id == user.get('id')).first().role
+    if role != UsersRoles.POLICE_OFFICER.value:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f'Unauthorized role: {role}')
+
+    vehicle = db.query(Vehicles).filter(Vehicles.plate == request.vehicle_plate).first()
+
+    if vehicle is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Vehicle not found')
+
+    infractor = db.query(Users).filter(Users.id == vehicle.owner_id).first()
+
+    create_infraction = Infractions(infractor_id=infractor.id,
+                                    vehicle_plate=request.vehicle_plate,
+                                    timestamp=request.timestamp,
+                                    comments=request.comments
+                                    )
+
     db.add(create_infraction)
     db.commit()
 
 
 @router.get('/{email}', status_code=status.HTTP_200_OK)
 async def generate_report(db: db_dep, email: str):
-    person = db.query(Users).filter(Users.email == email).first()
     infractions = []
-    if person:
-        infractions = db.query(Infractions).filter(Infractions.infractor_id == person.id)
+    person = db.query(Users).filter(Users.email == email).first()
+    
+    if person is not None:
+        infractions = db.query(Infractions).filter(Infractions.infractor_id == person.id).all()
     return infractions
 
 

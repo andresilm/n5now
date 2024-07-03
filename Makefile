@@ -3,7 +3,7 @@ REQUIREMENTS_FILE = requirements.txt
 
 .PHONY: install
 install:
-	python -m venv $(VENV_DIR) && \
+	python3 -m venv $(VENV_DIR) && \
 	$(VENV_DIR)/bin/pip install --upgrade pip setuptools && \
 	if [ -f $(REQUIREMENTS_FILE) ]; then \
 		$(VENV_DIR)/bin/pip install -r $(REQUIREMENTS_FILE); \

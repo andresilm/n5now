@@ -43,10 +43,9 @@ async def get_current_user(token):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get('sub')
         user_id: int = payload.get('id')
-        role: str = payload.get('role')
         if not username or not user_id:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Could not authenticate user')
-        return {'username': username, 'id': user_id, 'role': role}
+        return {'username': username, 'id': user_id}
     except JWTError:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Could not authenticate user')
 
