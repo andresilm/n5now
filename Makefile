@@ -1,4 +1,4 @@
-VENV_DIR = venv
+VENV_DIR = virtualenv
 REQUIREMENTS_FILE = requirements.txt
 
 .PHONY: install
@@ -11,7 +11,11 @@ install:
 
 .PHONY: run
 run:
-	python3 -m uvicorn main:app --reload
+	( \
+       source $(VENV_DIR)/bin/activate; \
+       python -m app.main; \
+    )
+
 
 .PHONY: clean
 clean:

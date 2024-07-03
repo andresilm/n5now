@@ -1,37 +1,41 @@
 # Traffic Violations application
  N5  Code Challenge
 
+## How to run
 
-## Run in local virtual environment
+### Run in local virtual environment
 
 
-### Create virtual environment and install dependencies
+#### Create virtual environment and install dependencies
 ```
 make install
 ```
 
-### Activate virtual environment
+#### Run application
 
 ```
-source venv/bin/activate
+make run
 ```
 
-### Run application
+### Run in docker container
 
-```
-uvicorn main:app --host 127.0.0.1 --port 8080
-```
-
-
-## Run in docker container
-
-### Create docker image
+#### Create docker image
 ```
 make docker-build
 ```
 
-### Launch container and start application
+#### Launch container and start application
 
 ```
 make docker-run
 ```
+
+## How to use
+
+### API documentation
+Once server is up and running, see
+```
+http://127.0.0.1:8000/docs#/
+```
+
+for documentation about the available endpoints and their usage

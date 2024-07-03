@@ -5,9 +5,9 @@ from passlib.context import CryptContext
 from pydantic import BaseModel, Field
 from requests import Session
 from starlette import status
-from database import SessionLocal
-from models import Users
-from router.auth import SECRET_KEY, ALGORITHM
+from ..database import SessionLocal
+from ..models import Users
+from app.router.auth import SECRET_KEY, ALGORITHM
 
 router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -55,8 +55,7 @@ async def create_user(db: db_dep, create_user_request: CreateUserRequest):
         first_name=create_user_request.first_name,
         last_name=create_user_request.last_name,
         hashed_password=bcrypt_context.hash(create_user_request.password),
-        role=create_user_request.role,
-        is_active=True
+        role=create_user_request.role
     )
     db.add(create_user_model)
     db.commit()
