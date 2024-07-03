@@ -13,8 +13,8 @@ class Users(Base):
     role = Column(String)
 
 
-class Citizen(Base):
-    __tablename__ = 'citizen'
+class Citizens(Base):
+    __tablename__ = 'citizens'
 
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String)
@@ -22,8 +22,8 @@ class Citizen(Base):
     email = Column(String)
 
 
-class Vehicle(Base):
-    __tablename__ = 'vehicle'
+class Vehicles(Base):
+    __tablename__ = 'vehicles'
 
     plate = Column(String, primary_key=True)
     color = Column(String)

@@ -3,6 +3,8 @@ python-multipart
 bcrypt
 uvicorn==0.20.0
 fastapi
+redis
+fastapi-admin
 SQLAlchemy
 pydantic
 python-jose
