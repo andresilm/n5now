@@ -16,7 +16,6 @@ bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 class CreateUserRequest(BaseModel):
     username: str
-    email: str
     first_name: str
     last_name: str
     password: str
@@ -50,7 +49,6 @@ user_dep = Annotated[dict, Depends(get_current_user)]
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dep, create_user_request: CreateUserRequest):
     create_user_model = Users(
-        email=create_user_request.email,
         username=create_user_request.username,
         first_name=create_user_request.first_name,
         last_name=create_user_request.last_name,

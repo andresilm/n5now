@@ -8,7 +8,7 @@ SQLALCHEMY_DB_URL = 'sqlite:///registries.db'
 
 engine = create_engine(SQLALCHEMY_DB_URL)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
