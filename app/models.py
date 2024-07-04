@@ -16,6 +16,7 @@ class Users(Base):
 
 class Vehicles(Base):
     __tablename__ = 'vehicles'
+
     plate = Column(String, primary_key=True)
     color = Column(String)
     brand = Column(String)

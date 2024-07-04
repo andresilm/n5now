@@ -1,16 +1,13 @@
-FROM ubuntu:20.04
+FROM python:3.12-slim
 
 LABEL maintainer="andresluna2007@gmail.com"
-
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y python3 python3-pip curl make python3-venv
 
 WORKDIR /app
 
 COPY . /app
 
-RUN make install
+EXPOSE 8000
 
-EXPOSE 8080
+RUN /bin/bash -c "source virtualenv/bin/activate && pip install --no-cache-dir -r requirements.txt"
 
-CMD ["uvicorn", "main:app" ,"--host", "127.0.0.1", "--port", "8080"]
+CMD ["/bin/bash", "-c", "source virtualenv/bin/activate && python -m app.main"]

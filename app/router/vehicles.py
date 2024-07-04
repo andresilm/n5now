@@ -1,6 +1,4 @@
-from datetime import datetime
 from typing import Annotated
-
 from app.models import Vehicles
 from starlette import status
 from fastapi import HTTPException, APIRouter, Depends

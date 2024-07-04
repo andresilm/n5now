@@ -38,6 +38,6 @@ tag-latest: build
 
 .PHONY: docker-run
 docker-run:
-	docker run --rm -it $(IMAGE_NAME):$(IMAGE_VERSION)
+	docker run -p 8000:8000 --rm -it $(IMAGE_NAME):$(IMAGE_VERSION)
 
 

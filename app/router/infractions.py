@@ -62,7 +62,7 @@ async def register_new_infraction(db: db_dep, user: user_dep, request: CreateInf
 async def generate_report(db: db_dep, email: str):
     infractions = []
     person = db.query(Users).filter(Users.email == email).first()
-    
+
     if person is not None:
         infractions = db.query(Infractions).filter(Infractions.infractor_id == person.id).all()
     return infractions

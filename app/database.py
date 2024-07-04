@@ -4,8 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-
-#SQLALCHEMY_DB_URL = 'postgresql://postgres:1234!@localhost/TodoApplicationDatabase'
 SQLALCHEMY_DB_URL = 'sqlite:///registries.db'
 
 engine = create_engine(SQLALCHEMY_DB_URL)
