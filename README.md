@@ -1,5 +1,4 @@
 # Traffic Violations application
- N5  Code Challenge
 
 ## How to run
 
